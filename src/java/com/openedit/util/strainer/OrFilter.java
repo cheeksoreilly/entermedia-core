@@ -3,8 +3,6 @@
  */
 package com.openedit.util.strainer;
 
-import com.openedit.WebPageRequest;
-
 /**
  * This is a combinatorial filter which ORs together all of its sub-filters.
  * 
@@ -72,33 +70,12 @@ public class OrFilter extends BaseFilter implements CompositeFilter
 	 */
 	public boolean passes(Object inObj) throws FilterException
 	{
-		String method = null;
-		if( inObj instanceof WebPageRequest)
-		{
-			WebPageRequest inParent = (WebPageRequest)inObj;
-			method = inParent.getMethod();
-		}
-		
 		for (int i = 0; i < fieldFilters.length; i++)
 		{
 			Filter filter = fieldFilters[i];
-			if( method == null)
+			if (filter.passes(inObj))
 			{
-				if (filter.passes(inObj))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				String onlymethod =  filter.get("method");
-				if(onlymethod == null || method.equalsIgnoreCase(onlymethod))
-				{
-					if (filter.passes(inObj))
-					{
-						return true;
-					}
-				}
+				return true;
 			}
 		}
 		return false;

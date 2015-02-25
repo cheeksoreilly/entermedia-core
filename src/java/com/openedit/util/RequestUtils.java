@@ -272,7 +272,7 @@ public class RequestUtils {
 			}
 			context.putProtectedPageValue(PageRequestKeys.HOME, getHome());
 			
-			if( inPage.isDynamic() ) //TODO: Move all this to an action
+			if( inPage.isHtml() ) //TODO: Move all this to an action
 			{
 				// urlpath is the address the link came in on
 				String path = PathUtilities.extractDirectoryPath(inPage.getPath());

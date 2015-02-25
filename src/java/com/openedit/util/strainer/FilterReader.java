@@ -206,17 +206,28 @@ public class FilterReader {
 					inConfig.getAttribute("value"));
 		}
 
-		if( result == null)
+		else // TODO: Look in Spring for some kind of filter
 		{
-			result = (Filter) getModuleManager().getBean(
+
+			Filter filter = (Filter) getModuleManager().getBean(
 					elemName + "Filter");
-		} 
-		if( result == null)
-		{
+			if (filter != null) {
+				filter.setConfiguration(inConfig);
+				for (Iterator iterator = inConfig.getAttributeNames()
+						.iterator(); iterator.hasNext();) {
+					String key = (String) iterator.next();
+					String val = inConfig.getAttribute(key);
+					if (val != null) {
+						filter.setProperty(key, val);
+					}
+
+				}
+				result = filter;
+			} else {
 				throw new OpenEditException("Unrecognized filter element <"
 						+ elemName + ">");
+			}
 		}
-		result.setConfiguration(inConfig);
 
 		return result;
 	}

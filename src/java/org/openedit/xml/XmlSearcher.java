@@ -95,7 +95,6 @@ public class XmlSearcher extends BaseSearcher implements Shutdownable
 	public void reIndexAll() throws OpenEditException
 	{
 		getCacheManager().clear(cacheId() );
-		fieldXmlFile = null;
 	}
 	
 	public boolean passes(Element inElement, SearchQuery inQuery) throws ParseException
@@ -435,7 +434,8 @@ public class XmlSearcher extends BaseSearcher implements Shutdownable
 		//If this element is manipulated then the instance is the same
 		//No need to read it ElementData data = (ElementData)inData;
 		XmlFile settings = getXmlFile();
-		String path = "/WEB-INF/data/" + getCatalogId() + "/lists" + "/" + getSearchType() + ".xml";
+		String path = "/WEB-INF/data/" + getCatalogId() + "/lists"
+		+ "/" + getSearchType() + ".xml";
 
 		settings.setPath(path);
 		ElementData data = (ElementData)inData;
@@ -455,7 +455,6 @@ public class XmlSearcher extends BaseSearcher implements Shutdownable
 			element = settings.getRoot().addElement(settings.getElementName());
 			element.addAttribute("id", inData.getId());
 		}
-		
 		List attributes = data.getElement().attributes();
 //		List attributessaved = new ArrayList(attributes.size()); 
 //		for (Iterator iterator = attributes.iterator(); iterator.hasNext();) {
@@ -466,9 +465,7 @@ public class XmlSearcher extends BaseSearcher implements Shutdownable
 //			}
 //		}
 		element.setAttributes(attributes);
-		//element.setText(inData.getName());
-		//existing row exists
-		element.setContent(data.getElement().content());
+		element.setText(inData.getName());
 		
 		log.info("Saved to "  + settings.getPath());
 		getXmlArchive().saveXml(settings, inUser);
